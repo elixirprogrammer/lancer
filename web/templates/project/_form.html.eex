@@ -1,0 +1,46 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+    <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= label f, :Name, class: "control-label" %>
+      <%= text_input f, :name, class: "form-control" %>
+      <%= error_tag f, :name %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :Category, class: "control-label" %>
+      <%= select f,
+          :category_id,
+          @categories |> Enum.map(&{&1.name, &1.id}),
+          class: "form-control"
+      %>
+      <%= error_tag f, :category_id %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :Location, class: "control-label" %>
+      <%= text_input f, :location, class: "form-control" %>
+      <%= error_tag f, :location %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :Description, class: "control-label" %>
+      <%= textarea f, :description, rows: 15, class: "form-control" %>
+      <%= error_tag f, :description %>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= label f, :Budget, class: "control-label" %>
+      <%= text_input f, :budget, class: "form-control" %>
+      <%= error_tag f, :budget %>
+    </div>
+
+    <%= submit "#{@btn} Job", class: "btn btn-primary btn-lg" %>
+  </div>
+<% end %>

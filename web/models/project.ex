@@ -21,7 +21,7 @@ defmodule Lancer.Project do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :description, :budget, :location, :open, :awarded_proposal])
-    |> validate_required([:name, :description, :budget, :location, :open])
+    |> cast(params, [:name, :description, :budget, :location, :open, :awarded_proposal, :category_id])
+    |> validate_required([:name, :description, :budget, :location, :open, :category_id])
   end
 end
