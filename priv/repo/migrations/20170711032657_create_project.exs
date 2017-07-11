@@ -9,8 +9,6 @@ defmodule Lancer.Repo.Migrations.CreateProject do
       add :location, :string
       add :open, :boolean, default: true, null: false
       add :awarded_proposal, :integer
-      add :latitude, :float
-      add :longitude, :float
       add :user_id, references(:users, on_delete: :delete_all)
       add :category_id, references(:categories, on_delete: :delete_all)
 

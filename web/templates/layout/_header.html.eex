@@ -31,8 +31,8 @@
             </ul>
           </li>
         <% else %>
-          <%= link "Log In", to: session_path(@conn, :new), class: "btn btn-success navbar-btn" %>
-          <%= link "Sign Up", to: user_path(@conn, :new), class: "btn btn-info navbar-btn" %>
+          <%= link "Log In", to: session_path(@conn, :new), class: "btn btn-info navbar-btn" %>
+          <%= link "Sign Up", to: user_path(@conn, :new), class: "btn btn-success navbar-btn" %>
         <% end %>
 
       </ul>

@@ -8,8 +8,6 @@ defmodule Lancer.Project do
     field :location, :string
     field :open, :boolean, default: false
     field :awarded_proposal, :integer
-    field :latitude, :float
-    field :longitude, :float
     belongs_to :user, Lancer.User
     belongs_to :category, Lancer.Category
     has_many :proposals, Lancer.Proposal
@@ -23,7 +21,7 @@ defmodule Lancer.Project do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :description, :budget, :location, :open, :awarded_proposal, :latitude, :longitude])
-    |> validate_required([:name, :description, :budget, :location, :open, :awarded_proposal, :latitude, :longitude])
+    |> cast(params, [:name, :description, :budget, :location, :open, :awarded_proposal])
+    |> validate_required([:name, :description, :budget, :location, :open])
   end
 end
