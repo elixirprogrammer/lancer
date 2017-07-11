@@ -13,9 +13,15 @@ defmodule Lancer.UserController do
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-    changeset = User.changeset(user)
-    render(conn, :edit, user: user, changeset: changeset)
+    user = Repo.get(User, id)
+    if conn.assigns.current_user == user do
+      changeset = User.changeset(user)
+      render(conn, :edit, user: user, changeset: changeset)
+    else
+      conn
+      |> put_flash(:error, "You are not the owner of that user")
+      |> redirect(to: page_path(conn, :index))
+    end
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
