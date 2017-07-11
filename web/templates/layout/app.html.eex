@@ -12,8 +12,10 @@
   </head>
 
   <body>
-    <%= render "_header.html", conn: @conn, current_user: @current_user %>
-    
+    <header>
+      <%= render "_header.html", conn: @conn, current_user: @current_user %>
+    </header>
+
     <div class="container">
 
       <%= if get_flash(@conn, :info) do %>
