@@ -1,0 +1,46 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link "Lancer", to: "/", class: "navbar-brand" %>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <div class="navbar-left">
+        <%= if @current_user do %>
+          <%= link "Post a Job", to: project_path(@conn, :new), class: "btn btn-primary navbar-btn" %>
+        <% end %>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+
+        <li><%= link "About Us", to: page_path(@conn, :about), class: "btn navbar-btn" %></li>
+        <li><%= link "Contact", to: page_path(@conn, :contact), class: "btn navbar-btn" %></li>
+        <li><%= link "FAQ", to: page_path(@conn, :faq), class: "btn navbar-btn" %></li>
+
+        <%= if @current_user do %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= first_name(@current_user) %> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><%= link "My Job", to: "/" %></li>
+              <li><%= link "settings", to: user_path(@conn, :edit, @current_user) %></li>
+              <li role="separator" class="divider"></li>
+              <li><%= button "Log out", to: session_path(@conn, :delete, @current_user), method: "delete" %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li><%= link "Log In", to: session_path(@conn, :new), class: "btn btn-success navbar-btn" %></li>
+          <li><%= link "Sign Up", to: user_path(@conn, :new), class: "btn btn-info navbar-btn" %></li>
+        <% end %>
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

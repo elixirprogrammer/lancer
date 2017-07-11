@@ -1,6 +1,27 @@
 /* Phoenix flash messages */
 .alert:empty { display: none; }
- 
+
+/* Logout link form fix */
+.dropdown-menu>li>form>button {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #ebebeb;
+  white-space: nowrap;
+  background: inherit;
+  border:none;
+  font: inherit;
+  width: 100%;
+}
+
+.dropdown-menu>li>form>button:focus, .dropdown-menu>li>form>button:hover{
+  color:#ebebeb;
+  text-decoration:none;
+  background-color:#485563;
+}
+
 body {
   margin-top: 60px;
 }

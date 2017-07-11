@@ -18,6 +18,9 @@ defmodule Lancer.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/about", PageController, :about
+    get "/contact", PageController, :contact
+    get "/faq", PageController, :faq
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
@@ -25,7 +28,8 @@ defmodule Lancer.Router do
   scope "/", Lancer do
     pipe_through [:browser, :authenticate_user]
 
-    resources "/users", UserController, only: [:index]
+    resources "/projects", ProjectController
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
