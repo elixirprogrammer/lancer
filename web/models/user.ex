@@ -6,6 +6,8 @@ defmodule Lancer.User do
     field :email, :string
     field :username, :string
     field :password_hash, :string
+    field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true
     has_many :projects, Lancer.Project
     has_many :proposals, Lancer.Proposal
 
@@ -17,7 +19,31 @@ defmodule Lancer.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :email, :username, :password_hash])
-    |> validate_required([:name, :email, :username, :password_hash])
+    |> cast(params, [:name, :email, :username, :password, :password_confirmation])
+    |> validate_required([:name, :email, :username, :password, :password_confirmation])
+    |> validate_length(:username, min: 5, max: 20)
+    |> validate_format(:email, ~r/\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "Please use a valid email")
+    |> validate_format(:username, ~r/^[a-zA-Z0-9_.-]*$/, message: "Please use letters and numbers without space(only characters allowed _ . -)")
+    |> unique_constraint(:username)
+  end
+
+  def reg_changeset(struct, params \\ %{}) do
+    struct
+    |> changeset(params)
+    |> cast(params, [:password], [])
+    |> validate_length(:password, min: 8, max: 100)
+    |> validate_format(:password, ~r/^[a-zA-Z0-9_.-]*$/, message: "Please use letters and numbers without space(only characters allowed _ . -)")
+    |> validate_format(:password, ~r/^(?=.*[a-zA-Z])(?=.*[0-9])/, message: "Password must contain letters and numbers")
+    |> validate_confirmation(:password)
+    |> put_pass_hash()
+  end
+
+  defp put_pass_hash(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
+        put_change(changeset, :password_hash, Hasher.salted_password_hash(pass))
+      _ ->
+        changeset
+    end
   end
 end
