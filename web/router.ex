@@ -29,7 +29,7 @@ defmodule Lancer.Router do
     pipe_through [:browser, :authenticate_user]
 
     resources "/projects", ProjectController
-    resources "/users", UserController
+    resources "/users", UserController, except: [:show, :index]
   end
 
   # Other scopes may use custom stacks.
