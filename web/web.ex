@@ -52,6 +52,7 @@ defmodule Lancer.Web do
       import Lancer.Router.Helpers
       import Lancer.ErrorHelpers
       import Lancer.Gettext
+      import Number.Currency
     end
   end
 

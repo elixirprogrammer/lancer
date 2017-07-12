@@ -26,4 +26,10 @@ defmodule Lancer.ProjectController do
     end
   end
 
+  def show(conn, %{"id" => id}) do
+    project = Repo.get!(Project, id)
+    skills = Repo.all assoc(project, :skills)
+    render(conn, :show, project: project, skills: skills) 
+  end
+
 end

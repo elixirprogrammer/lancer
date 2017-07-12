@@ -1,0 +1,24 @@
+<div class="row">
+  <h2>Job detail
+    <span class="pull-right">
+      <small>
+      <%= link to: "/" do %>
+        &larr; All Jobs
+      <% end %>
+      </small>
+    </span>
+  </h2>
+  <div class="col-xs-12 col-md-8">
+    <h3><%= @project.name %></h3>
+    <p><i class="fa fa-calendar"></i> <%= "#{@project.inserted_at.month}/#{@project.inserted_at.day}/#{@project.inserted_at.year}" %> | <i class="fa fa-map-marker"></i> <%= @project.location %> | <span class="label label-success"><%= number_to_currency(@project.budget) %></span></p>
+    <br>
+    <legend>Description</legend>
+    <p><%= @project.description %></p>
+    <legend>Skills Wanted</legend>
+    <ul>
+      <%= for skill <- @skills do %>
+        <li><%= skill.name %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

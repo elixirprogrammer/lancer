@@ -42,7 +42,7 @@
   <div class="col-md-6">
     <div class="form-group">
       <%= label f, :Budget, class: "control-label" %>
-      <%= text_input f, :budget, placeholder: "ex: $1,000", class: "form-control" %>
+      <%= text_input f, :budget, placeholder: "ex: 1000", class: "form-control" %>
       <%= error_tag f, :budget %>
     </div>
 
