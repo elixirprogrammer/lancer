@@ -7,7 +7,7 @@
   <div class="col-md-6">
     <div class="form-group">
       <%= label f, :Name, class: "control-label" %>
-      <%= text_input f, :name, class: "form-control" %>
+      <%= text_input f, :name, placeholder: "Name of your Job", class: "form-control" %>
       <%= error_tag f, :name %>
     </div>
 
@@ -23,7 +23,7 @@
 
     <div class="form-group">
       <%= label f, :Location, class: "control-label" %>
-      <%= text_input f, :location, class: "form-control" %>
+      <%= text_input f, :location, placeholder: "(Denver, San Francisco, Remote, etc.)", class: "form-control" %>
       <%= error_tag f, :location %>
     </div>
 
@@ -37,7 +37,7 @@
   <div class="col-md-6">
     <div class="form-group">
       <%= label f, :Budget, class: "control-label" %>
-      <%= text_input f, :budget, class: "form-control" %>
+      <%= text_input f, :budget, placeholder: "ex: $1,000", class: "form-control" %>
       <%= error_tag f, :budget %>
     </div>
 
