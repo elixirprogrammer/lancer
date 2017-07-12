@@ -3,6 +3,7 @@ defmodule Lancer.ProjectController do
 
   alias Lancer.Project
   alias Lancer.Category
+  alias Lancer.Skill
 
   def new(conn, _) do
     categories = Repo.all(Category)
@@ -15,6 +16,8 @@ defmodule Lancer.ProjectController do
     changeset = Project.changeset(%Project{}, project_params)
     case Repo.insert(changeset) do
       {:ok, project} ->
+        Skill.insert_skill_list(project.id, project_params["skills_list"])
+
         conn
         |> put_flash(:info, "#{project.name} created!")
         |> redirect(to: project_path(conn, :show, project))

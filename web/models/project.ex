@@ -24,4 +24,5 @@ defmodule Lancer.Project do
     |> cast(params, [:name, :description, :budget, :location, :open, :awarded_proposal, :category_id])
     |> validate_required([:name, :description, :budget, :location, :open, :category_id])
   end
+
 end
