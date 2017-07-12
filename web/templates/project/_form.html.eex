@@ -16,6 +16,7 @@
       <%= select f,
           :category_id,
           @categories |> Enum.map(&{&1.name, &1.id}),
+          prompt: "Select Category",
           class: "form-control"
       %>
       <%= error_tag f, :category_id %>
