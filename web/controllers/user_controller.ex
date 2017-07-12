@@ -15,7 +15,7 @@ defmodule Lancer.UserController do
         conn
         |> Lancer.Auth.login(user)
         |> put_flash(:info, "#{user.name} created!")
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: project_path(conn, :index))
       {:error, changeset} ->
         render(conn, :new, changeset: changeset)
     end
@@ -36,7 +36,7 @@ defmodule Lancer.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "#{user.name} updated successfully.")
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: project_path(conn, :index))
       {:error, changeset} ->
         render(conn, :edit, user: user, changeset: changeset)
     end
@@ -46,7 +46,7 @@ defmodule Lancer.UserController do
     unless conn.assigns.current_user == user do
       conn
       |> put_flash(:error, "You are not the owner of that user")
-      |> redirect(to: page_path(conn, :index))
+      |> redirect(to: project_path(conn, :index))
     end
   end
 end

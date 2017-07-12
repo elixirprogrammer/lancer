@@ -46,7 +46,7 @@ defmodule Lancer.Auth do
     else
       conn
       |> put_flash(:error, "You must be logged in to access that page")
-      |> redirect(to: Helpers.page_path(conn, :index))
+      |> redirect(to: Helpers.project_path(conn, :index))
       |> halt()
     end
   end

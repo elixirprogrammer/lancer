@@ -12,7 +12,7 @@ pass}}) do
       {:ok, conn} ->
         conn
           |> put_flash(:info, "Welcome back!")
-          |> redirect(to: page_path(conn, :index))
+          |> redirect(to: project_path(conn, :index))
       {:error, _reason, conn} ->
         conn
           |> put_flash(:error, "Invalid username/password combination")
@@ -23,6 +23,6 @@ pass}}) do
   def delete(conn, _) do
     conn
     |> Lancer.Auth.logout()
-    |> redirect(to: page_path(conn, :index))
+    |> redirect(to: project_path(conn, :index))
   end
 end
