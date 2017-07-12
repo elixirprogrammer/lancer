@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col-xs-12 col-md-9">
+    <table class="table table-striped" >
+      <tbody>
+        <%= render_many @projects, Lancer.ProjectView, "_project.html", conn: @conn %>
+      </tbody>
+    </table>
+  </div>
+</div>

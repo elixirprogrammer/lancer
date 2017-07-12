@@ -5,6 +5,11 @@ defmodule Lancer.ProjectController do
   alias Lancer.Category
   alias Lancer.Skill
 
+  def index(conn, params) do
+    projects = Project |> Repo.all() |> Repo.preload([:skills, :category])
+    render(conn, :index, projects: projects)
+  end
+
   def new(conn, _) do
     categories = Repo.all(Category)
     changeset = Project.changeset(%Project{})
@@ -29,7 +34,7 @@ defmodule Lancer.ProjectController do
   def show(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
     skills = Repo.all assoc(project, :skills)
-    render(conn, :show, project: project, skills: skills) 
+    render(conn, :show, project: project, skills: skills)
   end
 
 end

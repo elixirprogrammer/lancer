@@ -1,0 +1,18 @@
+<tr>
+  <td class="col-md-6">
+    <p>
+      <%= link @project.name, to: project_path(@conn, :show, @project) %>
+      <small class="label label-success"><%= number_to_currency(@project.budget) %></small>
+    </p>
+    <p><%= String.slice(@project.description, 1..500) %></p>
+    <p>Skills: <%= for skill <- @project.skills do %>
+      <span class="label label-default"><%= skill.name %></span><% end %> </p>
+  </td>
+  <td>
+    <%= @project.category.name %>
+  </td>
+  <td>
+    <p><i class="fa fa-calendar"> <%= "#{@project.inserted_at.month}/#{@project.inserted_at.day}/#{@project.inserted_at.year}" %></i></p>
+    <p><i class="fa fa-map-marker"></i> <%= @project.location %></p>
+  </td>
+</tr>
