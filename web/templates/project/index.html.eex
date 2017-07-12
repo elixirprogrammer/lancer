@@ -6,4 +6,8 @@
       </tbody>
     </table>
   </div>
+
+  <div class="text-center">
+    <%= paginate @conn, @kerosene %>
+  </div>
 </div>

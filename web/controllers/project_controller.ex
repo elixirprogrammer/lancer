@@ -6,8 +6,13 @@ defmodule Lancer.ProjectController do
   alias Lancer.Skill
 
   def index(conn, params) do
-    projects = Project |> Repo.all() |> Repo.preload([:skills, :category])
-    render(conn, :index, projects: projects)
+    {projects, kerosene} =
+    Project
+    |> order_by(desc: :id)
+    |> preload([:skills, :category])
+    |> Repo.paginate(params)
+
+    render(conn, :index, projects: projects, kerosene: kerosene)
   end
 
   def new(conn, _) do
