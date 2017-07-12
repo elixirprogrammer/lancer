@@ -19,7 +19,7 @@ defmodule Lancer.Mixfile do
   def application do
     [mod: {Lancer, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :hasher, :number, :kerosene]]
+                    :phoenix_ecto, :postgrex, :hasher, :number, :kerosene, :faker]]
   end
 
   # Specifies which paths to compile per environment.
@@ -40,7 +40,8 @@ defmodule Lancer.Mixfile do
      {:cowboy, "~> 1.0"},
      {:hasher, "~> 0.1.0"},
      {:number, "~> 0.5.1"},
-     {:kerosene, "~> 0.7.0"}]
+     {:kerosene, "~> 0.7.0"},
+     {:faker, "~> 0.8"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
