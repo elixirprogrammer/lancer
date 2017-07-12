@@ -36,7 +36,8 @@
 
     <div class="form-group">
       <%= label f, :List_Skills_required_for_this_job, class: "control-label" %>
-     <%= textarea f, :skills_list, rows: 3, placeholder: "Separate skills with a comma", class: "form-control" %>
+     <%= text_input f, :skills_list, data_role: "tagsinput", class: "form-control" %>
+     <small class="help-block">Separate skills with a comma.</small>
     </div>
   </div>
 

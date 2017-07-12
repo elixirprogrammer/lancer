@@ -27,7 +27,7 @@ defmodule Lancer.Skill do
   end
 
   def insert_skill_list(project_id, skills_list) do
-    skills = skills_list |> String.split(", ") |> Enum.uniq()
+    skills = skills_list |> String.split(",") |> Enum.uniq()
     Enum.each(skills, fn(s) ->
       unless s == "" do
         skill_changeset = Skill.changeset(%Skill{}, %{name: s})
