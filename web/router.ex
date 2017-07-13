@@ -10,6 +10,7 @@ defmodule Lancer.Router do
     plug Lancer.Auth, repo: Lancer.Repo
   end
 
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -21,7 +22,7 @@ defmodule Lancer.Router do
     get "/search", ProjectController, :search
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
-    resources "/projects", ProjectController, only: [:show]
+    resources "/jobs", ProjectController, only: [:show]
   end
 
   scope "/", Lancer do
