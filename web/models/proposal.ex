@@ -17,5 +17,18 @@ defmodule Lancer.Proposal do
     struct
     |> cast(params, [:bid, :description])
     |> validate_required([:bid, :description])
+    |> valid_bid_format(params)
+  end
+
+  defp valid_bid_format(changeset, params) do
+    message = "Use only numbers please"
+    if Map.has_key?(params, "bid") do
+      unless Regex.match?(~r/^[0-9]*$/, params["bid"]) do
+        changeset = add_error(changeset, :bid, message)
+      end
+      changeset
+    else
+      changeset
+    end
   end
 end

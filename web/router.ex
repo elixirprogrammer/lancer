@@ -21,12 +21,15 @@ defmodule Lancer.Router do
     get "/search", ProjectController, :search
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/projects", ProjectController, only: [:show]
   end
 
   scope "/", Lancer do
     pipe_through [:browser, :authenticate_user]
 
-    resources "/projects", ProjectController, except: [:index]
+    resources "/projects", ProjectController, except: [:index, :show] do
+      resources "/proposals", ProposalController, except: [:index, :show]
+    end
     resources "/users", UserController, except: [:show, :index]
   end
 

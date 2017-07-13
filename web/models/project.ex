@@ -25,6 +25,19 @@ defmodule Lancer.Project do
     struct
     |> cast(params, [:name, :description, :budget, :location, :open, :awarded_proposal, :category_id])
     |> validate_required([:name, :description, :budget, :location, :open, :category_id])
+    |> valid_bid_format(params)
+  end
+
+  defp valid_bid_format(changeset, params) do
+    message = "Use only numbers please"
+    if Map.has_key?(params, "budget") do
+      unless Regex.match?(~r/^[0-9]*$/, params["budget"]) do
+        changeset = add_error(changeset, :budget, message)
+      end
+      changeset
+    else
+      changeset
+    end
   end
 
   def search(params) do

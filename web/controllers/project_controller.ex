@@ -1,9 +1,7 @@
 defmodule Lancer.ProjectController do
   use Lancer.Web, :controller
 
-  alias Lancer.Project
-  alias Lancer.Category
-  alias Lancer.Skill
+  alias Lancer.{Project, Category, Skill, Proposal}
 
   def index(conn, params) do
     categories = Repo.all(Category)
@@ -37,7 +35,7 @@ defmodule Lancer.ProjectController do
 
   def create(conn, %{"project" => project_params}) do
     categories = Repo.all(Category)
-    changeset = Project.changeset(%Project{}, project_params)
+    changeset = Project.changeset(%Project{user_id: conn.assigns.current_user.id}, project_params)
     case Repo.insert(changeset) do
       {:ok, project} ->
         Skill.insert_skill_list(project.id, project_params["skills_list"])
@@ -51,9 +49,10 @@ defmodule Lancer.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
+    changeset = Proposal.changeset(%Proposal{})
     project = Repo.get!(Project, id)
     skills = Repo.all assoc(project, :skills)
-    render(conn, :show, project: project, skills: skills)
+    render(conn, :show, project: project, skills: skills, changeset: changeset)
   end
 
 end

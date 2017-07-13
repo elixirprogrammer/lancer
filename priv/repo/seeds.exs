@@ -43,12 +43,11 @@ Category.changeset(%Category{}, %{name: "Administrative"})
 
 Repo.delete_all Project
 (1..50) |> Enum.each(fn n ->
-  Project.changeset(%Project{}, %{
+  Project.changeset(%Project{user_id: :rand.uniform(10)}, %{
                         name: Faker.Name.title ,
                         description: Faker.Lorem.paragraph(%Range{first: 1, last: 40}),
                         budget: Enum.random(1000..20000),
                         location: "#{Faker.Address.city}, #{Faker.Address.state_abbr}",
-                        user_id: :rand.uniform(10),
                         category_id: :rand.uniform(6)})
   |> Repo.insert!()
 end)

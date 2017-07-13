@@ -1,0 +1,26 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+    <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <div class="form-group">
+        <%= label f, :Bid, class: "control-label" %>
+        <%= text_input f, :bid, placeholder: "Amount of your bid", class: "form-control input-lg" %>
+        <%= error_tag f, :bid %>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-12">
+      <div class="form-group">
+        <%= label f, :Description, class: "control-label" %>
+        <%= textarea f, :description, rows: 10, class: "form-control", placeholder: "Explain the skills needed for this gig" %>
+        <%= error_tag f, :description %>
+      </div>
+    </div>
+  </div>
+
+  <%= submit "Submit Proposal", class: "btn btn-primary input-lg pull-right" %>
+<% end %>
