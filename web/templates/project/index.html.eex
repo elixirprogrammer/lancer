@@ -24,9 +24,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><%= link "Oldest", to: "/" %></li>
-            <li><%= link "Newest", to: "/" %></li>
-            <li><%= link "Name", to: "/" %></li>
+            <li><%= link "Oldest", to: "/?sort-by=oldest" %></li>
+            <li><%= link "Newest", to: "/?sort-by=newest" %></li>
+            <li><%= link "Name", to: "/?sort-by=name" %></li>
           </ul>
         </div>
       </div>

@@ -65,8 +65,19 @@ defmodule Lancer.Project do
   end
 
   def all_paginated(params) do
+    case params["sort-by"] do
+      "oldest" ->
+        all(params, [asc: :id])
+      "name" ->
+        all(params, [:name])
+      _ ->
+        all(params, [desc: :id])
+    end
+  end
+
+  defp all(params, order) do
     Project
-    |> order_by(desc: :id)
+    |> order_by(^order)
     |> preload([:skills, :category])
     |> Repo.paginate(params)
   end
