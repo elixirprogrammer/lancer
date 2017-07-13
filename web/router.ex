@@ -18,6 +18,7 @@ defmodule Lancer.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", ProjectController, :index
+    get "/search", ProjectController, :search
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end

@@ -6,7 +6,7 @@
 
     <%= form_tag "/search", method: "get", enforce_utf8: false, role: "search" do %>
       <input type="text" name="q" class="col-md-9 input-lg" placeholder="Search for...">
-      <button class="col-md-3 btn btn-primary input-lg" type="submit">Search &nbsp;<i class="fa fa-search"></i></button>
+          <button class="col-md-3 btn btn-primary input-lg" type="submit">Search &nbsp;<i class="fa fa-search"></i></button>
       </div>
     <% end %>
   </div>
