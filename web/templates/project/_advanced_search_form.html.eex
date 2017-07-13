@@ -1,0 +1,19 @@
+<%= form_tag "/search", [method: "get", enforce_utf8: false, role: "search"] do %>
+  <div class="form-group">
+    <label>Search</label>
+    <input class="form-control input-lg" name="q" placeholder="Developer, Accountant, etc." type="text">
+  </div>
+
+  <div class="form-group">
+    <label>Category</label>
+    <select class="form-control" name="category_id">
+      <option value="">Select Category</option>
+      <%= for category <- @categories do %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+      <% end %>
+    </select>
+  </div>
+  <br>
+
+  <button class="btn btn-primary btn-block input-lg" type="submit">Search &nbsp;<i class="fa fa-search"></i></button>
+<% end %>

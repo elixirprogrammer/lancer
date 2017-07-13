@@ -6,27 +6,27 @@ defmodule Lancer.ProjectController do
   alias Lancer.Skill
 
   def index(conn, params) do
-    projects_count = Lancer.Project |> Lancer.Repo.all |> length()
+    categories = Repo.all(Category)
     users_count = Lancer.User |> Lancer.Repo.all |> length()
     {projects, kerosene} = Project.all_paginated(params)
 
     render(conn, :index,
       projects: projects,
       kerosene: kerosene,
-      projects_count: projects_count,
-      users_count: users_count)
+      users_count: users_count,
+      categories: categories)
   end
 
   def search(conn, params) do
-    projects_count = Lancer.Project |> Lancer.Repo.all |> length()
+    categories = Repo.all(Category)
     users_count = Lancer.User |> Lancer.Repo.all |> length()
-    {projects, kerosene} = Project.search(params["q"], params)
+    {projects, kerosene} = Project.search(params)
 
     render(conn, :search,
       projects: projects,
       kerosene: kerosene,
-      projects_count: projects_count,
-      users_count: users_count)
+      users_count: users_count,
+      categories: categories)
   end
 
   def new(conn, _) do

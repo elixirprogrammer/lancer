@@ -1,18 +1,26 @@
 <div class="row">
-  <div class="col-md-8 col-md-offset-2 text-center">
+  <div class="col-xs-12 col-md-8 col-md-offset-2 text-center">
     <h1>
-      We currently have <strong class="text-success"><%= @projects_count %></strong> jobs from <strong class="text-success"><%= @users_count %></strong> Job Providers
+      Your search resulted in | <strong class="text-success"><%= @kerosene.total_count %></strong> jobs.
     </h1>
 
-    <%= form_tag "/search", method: "get", enforce_utf8: false, role: "search" do %>
+    <%= form_tag "/search", method: "get", enforce_utf8: false, role: "search", class: "fourty-from-top" do %>
       <input type="text" name="q" class="col-md-9 input-lg" placeholder="Example: Software Developer">
-          <button class="col-md-3 btn btn-primary input-lg" type="submit">Search &nbsp;<i class="fa fa-search"></i></button>
-      </div>
+      <button class="col-md-3 btn btn-primary input-lg" type="submit">Search &nbsp;<i class="fa fa-search"></i></button>
     <% end %>
   </div>
 
+  <div class="col-xs-12 col-md-3 fourty-from-top">
+    <h3>Advanced search</h3>
+    <%= render "_advanced_search_form.html", conn: @conn, categories: @categories %>
+  </div>
+
   <div class="col-xs-12 col-md-9 fourty-from-top">
-    <h3>Jobs</h3>
+    <h3>
+      Jobs
+      <span class="pull-right"><small>1 - 20 results</small></span>
+    </h3>
+
     <table class="table table-striped fourty-from-top" >
       <tbody>
         <%= render_many @projects, Lancer.ProjectView, "_project.html", conn: @conn %>
@@ -20,7 +28,7 @@
     </table>
   </div>
 
-  <div class="text-center">
+  <div class="col-md-12 text-right">
     <%= paginate @conn, @kerosene %>
   </div>
 </div>

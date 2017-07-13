@@ -27,16 +27,27 @@ defmodule Lancer.Project do
     |> validate_required([:name, :description, :budget, :location, :open, :category_id])
   end
 
-  def search(q_param, params) do
-    if q_param == "" do
-      all_paginated(params)
-    else
-      from(p in Project,
-      order_by: [desc: p.id],
-      where: ilike(p.name, ^"%#{q_param}%"),
-      or_where: ilike(p.description, ^"%#{q_param}%"),
-      preload: [:skills, :category])
-      |> Repo.paginate(params)
+  def search(params) do
+    cond do
+      params["q"] == "" ->
+        all_paginated(params)
+
+      Map.has_key?(params, "category_id") and params["category_id"] !== "" ->
+        from(p in Project,
+        order_by: [desc: p.id],
+        where: [category_id: ^String.to_integer(params["category_id"])],
+        where: ilike(p.name, ^"%#{params["q"]}%"),
+        or_where: ilike(p.description, ^"%#{params["q"]}%"),
+        preload: [:skills, :category])
+        |> Repo.paginate(params)
+
+      true ->
+        from(p in Project,
+        order_by: [desc: p.id],
+        where: ilike(p.name, ^"%#{params["q"]}%"),
+        or_where: ilike(p.description, ^"%#{params["q"]}%"),
+        preload: [:skills, :category])
+        |> Repo.paginate(params)
     end
   end
 
