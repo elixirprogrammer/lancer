@@ -22,6 +22,25 @@
   </div>
 
   <div class="col-xs-12 col-md-4">
-    <%= render "_submit_proposal.html", conn: @conn, changeset: @changeset, project: @project, current_user: @current_user %>
+    <%= render "_submit_proposal.html", conn: @conn, proposal_changeset: @proposal_changeset, project: @project, current_user: @current_user %>
   </div>
+
+  <%= if @awarded_proposal !== nil do %>
+    <div class="col-xs-12 col-md-8">
+      <h3 class="text-success">Awarded_proposal</h3>
+      <%= render_one @awarded_proposal, Lancer.ProjectView, "_awarded_proposal.html", as: :proposal %>
+    </div><!-- /.col-xs-12 col-md-8 -->
+  <% end %>
+
+  <%= if @project.proposals !== [] do %>
+    <div class="col-xs-12 col-md-8">
+      <h3>Proposals</h3>
+      <%= render_many @project.proposals, Lancer.ProjectView, "_proposal.html", as: :proposal,
+                            changeset: @changeset,
+                            action: project_path(@conn, :award_proposal, @project),
+                            current_user: @current_user,
+                            project: @project %>
+    </div><!-- /.col-xs-12 col-md-8 -->
+  <% end %>
+
 </div>

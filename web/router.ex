@@ -28,6 +28,8 @@ defmodule Lancer.Router do
   scope "/", Lancer do
     pipe_through [:browser, :authenticate_user]
 
+    put "/award-project/:id", ProjectController, :award_proposal
+
     resources "/projects", ProjectController, except: [:index, :show] do
       resources "/proposals", ProposalController, except: [:index, :show]
     end

@@ -44,4 +44,13 @@ defmodule Lancer.Proposal do
 
     able? = if query == [], do: true, else: false
   end
+
+  def awarded_proposal?(proposal) do
+    List.first query =
+      Proposal
+      |> where(id: ^proposal)
+      |> limit(1)
+      |> Repo.all()
+      |> Repo.preload(:user)
+  end
 end

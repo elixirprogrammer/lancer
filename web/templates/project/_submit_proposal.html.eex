@@ -3,7 +3,7 @@
     <%= @project.user_id != @current_user.id && @project.open && Lancer.Proposal.can_user_bid_project?(@project.id, @current_user.id) -> %>
       <legend>Submit a Proposal</legend>
       <%= render Lancer.ProposalView, "_form.html",
-                            changeset: @changeset,
+                            changeset: @proposal_changeset,
                             action: project_proposal_path(@conn, :create, @project) %>
 
     <%= @project.user_id == @current_user.id  && @project.open ->%>

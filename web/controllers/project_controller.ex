@@ -49,10 +49,27 @@ defmodule Lancer.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    changeset = Proposal.changeset(%Proposal{})
-    project = Repo.get!(Project, id)
+    proposal_changeset = Proposal.changeset(%Proposal{})
+    changeset = Project.changeset(%Project{})
+    project = Repo.get!(Project, id) |> Repo.preload([{:proposals, :user}])
+    awarded_proposal = Proposal.awarded_proposal?(project.awarded_proposal)
     skills = Repo.all assoc(project, :skills)
-    render(conn, :show, project: project, skills: skills, changeset: changeset)
+
+    render(conn, :show,
+      project: project,
+      skills: skills,
+      changeset: changeset,
+      proposal_changeset: proposal_changeset,
+      awarded_proposal: awarded_proposal)
+  end
+
+  def award_proposal(conn, %{"id" => id, "project" => project_params}) do
+    project = Repo.get!(Project, id)
+    changeset = Project.changeset(project, project_params)
+
+    Repo.update!(changeset)
+    conn
+    |> redirect(to: project_path(conn, :show, project))
   end
 
 end
