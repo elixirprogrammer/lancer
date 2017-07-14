@@ -64,12 +64,21 @@ defmodule Lancer.ProjectController do
   end
 
   def award_proposal(conn, %{"id" => id, "project" => project_params}) do
-    project = Repo.get!(Project, id)
+    project = Repo.get!(Project, id) |> Repo.preload(:user)
+    user_owns_project?(conn, project.user)
     changeset = Project.changeset(project, project_params)
 
     Repo.update!(changeset)
     conn
     |> redirect(to: project_path(conn, :show, project))
+  end
+
+  defp user_owns_project?(conn, project_user) do
+    unless project_user == conn.assigns.current_user do
+      conn
+      |> put_flash(:error, "You are not the owner of this project.")
+      |> redirect(to: project_path(conn, :index))
+    end
   end
 
 end
