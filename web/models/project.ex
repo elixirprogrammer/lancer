@@ -8,7 +8,7 @@ defmodule Lancer.Project do
     field :description, :string
     field :budget, :integer
     field :location, :string
-    field :open, :boolean, default: false
+    field :open, :boolean, default: true
     field :awarded_proposal, :integer
     belongs_to :user, Lancer.User
     belongs_to :category, Lancer.Category

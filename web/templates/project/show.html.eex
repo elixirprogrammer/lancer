@@ -22,11 +22,26 @@
   </div>
 
   <div class="col-xs-12 col-md-4">
-    <%= if @current_user && @project.user_id != @current_user.id do %>
-      <legend>Submit a Proposal</legend>
-      <%= render Lancer.ProposalView, "_form.html",
-                            changeset: @changeset,
-                            action: project_proposal_path(@conn, :create, @project) %>
+    <%= if @current_user do %>
+      <%= cond do %>
+        <%= @project.user_id != @current_user.id && @project.open && Lancer.Proposal.can_user_bid_project?(@project.id, @current_user.id) -> %>
+          <legend>Submit a Proposal</legend>
+          <%= render Lancer.ProposalView, "_form.html",
+                                changeset: @changeset,
+                                action: project_proposal_path(@conn, :create, @project) %>
+
+        <%= @project.user_id == @current_user.id  && @project.open ->%>
+          <h3 class="text-center">You can't bid on your own Job!</h3>
+
+        <%= @project.open && Lancer.Proposal.can_user_bid_project?(@project.id, @current_user.id) == false ->%>
+          <h3 class="text-center">You already bid on this job!</h3>
+
+        <%= @project.open == false -> %>
+          <h3 class="text-center">This Job is closed!</h3>
+      <% end %>
+    <%= else %>
+      <h3 class="text-center">Sign in to make a bid!</h3>
+      <%= link "Log In", to: session_path(@conn, :new), class: "btn btn-primary btn-lg pull-right" %>
     <% end %>
   </div>
 </div>

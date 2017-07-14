@@ -1,6 +1,8 @@
 defmodule Lancer.Proposal do
   use Lancer.Web, :model
 
+  alias Lancer.{Proposal, Repo}
+
   schema "proposals" do
     field :bid, :integer
     field :description, :string
@@ -30,5 +32,16 @@ defmodule Lancer.Proposal do
     else
       changeset
     end
+  end
+
+  def can_user_bid_project?(project_id, user_id) do
+    query =
+    Proposal
+    |> where(user_id: ^user_id)
+    |> where(project_id: ^project_id)
+    |> limit(1)
+    |> Repo.all()
+
+    able? = if query == [], do: true, else: false
   end
 end
