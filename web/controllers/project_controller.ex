@@ -27,6 +27,12 @@ defmodule Lancer.ProjectController do
       categories: categories)
   end
 
+  def manage_projects(conn, _params) do
+    projects = Project.manage_all(conn.assigns.current_user.id)
+
+    render(conn, :manage_projects, projects: projects)
+  end
+
   def new(conn, _) do
     categories = Repo.all(Category)
     changeset = Project.changeset(%Project{})

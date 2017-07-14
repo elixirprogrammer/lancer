@@ -36,6 +36,12 @@ defmodule Lancer.Router do
     resources "/users", UserController, except: [:show, :index]
   end
 
+  scope "/manage", Lancer do
+    pipe_through [:browser, :authenticate_user]
+
+    get "/projects", ProjectController, :manage_projects
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", Lancer do
   #   pipe_through :api

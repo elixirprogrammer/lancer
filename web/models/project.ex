@@ -78,6 +78,14 @@ defmodule Lancer.Project do
     end
   end
 
+  def manage_all(user) do
+    Project
+    |> where(user_id: ^user)
+    |> order_by([desc: :id])
+    |> Repo.all
+    |> Repo.preload([:category, :proposals])
+  end
+
   defp all(params, order) do
     Project
     |> order_by(^order)

@@ -1,0 +1,43 @@
+<div class="container">
+  <h3>My Gigs <small class="pull-right"><%= length(@projects) %> total</small></h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">Status</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Budget</th>
+        <th class="text-center">Proposals</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= for project <- @projects do %>
+        <tr>
+          <td>
+            <%= if project.open do %>
+              open
+            <% else %>
+              close
+            <% end %>
+          </td>
+          <td>
+            <%= link project.name, to: project_path(@conn, :show, project) %>
+          </td>
+          <td>
+            <%= project.category.name %>
+          </td>
+          <td>
+            <%= number_to_currency(project.budget) %>
+          </td>
+          <td>
+            <%= length(project.proposals) %>
+          </td>
+          <td><%= link "Edit", to: "/", class: "text-warning" %></td>
+          <td><%= link "Delete", to: "/", class: "text-danger" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>
