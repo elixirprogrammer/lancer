@@ -57,7 +57,7 @@ defmodule Lancer.ProjectController do
   def edit(conn, %{"id" => id}) do
     categories = Repo.all(Category)
     project = Repo.get!(Project, id) |> Repo.preload([:skills, :user])
-    user_owns_project?(conn, project.user)
+    user_owns_project?(conn, project)
     changeset = Project.changeset(project)
     render conn, :edit, changeset: changeset, categories: categories, project: project
   end
@@ -65,7 +65,7 @@ defmodule Lancer.ProjectController do
   def update(conn, %{"id" => id, "project" => project_params}) do
     categories = Repo.all(Category)
     project = Repo.get!(Project, id) |> Repo.preload([:skills, :user])
-    user_owns_project?(conn, project.user)
+    user_owns_project?(conn, project)
     changeset = Project.changeset(project, project_params)
 
     case Repo.update(changeset) do
@@ -80,7 +80,7 @@ defmodule Lancer.ProjectController do
 
   def delete(conn, %{"id" => id}) do
     project = Repo.get!(Project, id) |> Repo.preload(:user)
-    user_owns_project?(conn, project.user)
+    user_owns_project?(conn, project)
     Repo.delete!(project)
 
     conn
@@ -105,7 +105,7 @@ defmodule Lancer.ProjectController do
 
   def award_proposal(conn, %{"id" => id, "project" => project_params}) do
     project = Repo.get!(Project, id) |> Repo.preload(:user)
-    user_owns_project?(conn, project.user)
+    user_owns_project?(conn, project)
     changeset = Project.changeset(project, project_params)
 
     Repo.update!(changeset)
@@ -113,11 +113,11 @@ defmodule Lancer.ProjectController do
     |> redirect(to: project_path(conn, :show, project))
   end
 
-  defp user_owns_project?(conn, project_user) do
-    unless project_user == conn.assigns.current_user do
+  defp user_owns_project?(conn, project) do
+    unless project.user == conn.assigns.current_user do
       conn
-      |> put_flash(:error, "You are not the owner of that project.")
-      |> redirect(to: project_path(conn, :index))
+      |> put_flash(:error, "You are not the owner of this project.")
+      |> redirect(to: project_path(conn, :show, project))
     end
   end
 

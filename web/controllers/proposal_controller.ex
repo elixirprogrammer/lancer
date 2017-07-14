@@ -25,7 +25,7 @@ defmodule Lancer.ProposalController do
     unless Proposal.can_user_bid_project?(project_id, conn.assigns.current_user.id) do
       conn
       |> put_flash(:error, "You already bid on this job!")
-      |> redirect(to: project_path(conn, :index))
+      |> redirect(to: project_path(conn, :show, project_id))
     end
   end
 end
