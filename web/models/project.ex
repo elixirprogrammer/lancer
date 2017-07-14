@@ -13,7 +13,7 @@ defmodule Lancer.Project do
     belongs_to :user, Lancer.User
     belongs_to :category, Lancer.Category
     has_many :proposals, Lancer.Proposal
-    many_to_many :skills, Lancer.Skill, join_through: Lancer.Ability
+    many_to_many :skills, Lancer.Skill, join_through: Lancer.Ability, on_delete: :delete_all
 
     timestamps()
   end

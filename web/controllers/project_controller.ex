@@ -78,6 +78,16 @@ defmodule Lancer.ProjectController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    project = Repo.get!(Project, id) |> Repo.preload(:user)
+    user_owns_project?(conn, project.user)
+    Repo.delete!(project)
+
+    conn
+    |> put_flash(:info, "Project #{project.name} deleted successfully.")
+    |> redirect(to: project_path(conn, :manage_projects))
+  end
+
   def show(conn, %{"id" => id}) do
     proposal_changeset = Proposal.changeset(%Proposal{})
     changeset = Project.changeset(%Project{})
