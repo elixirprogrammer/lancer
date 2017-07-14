@@ -46,22 +46,25 @@ defmodule Lancer.Project do
         all_paginated(params)
 
       Map.has_key?(params, "category_id") and params["category_id"] !== "" ->
-        from(p in Project,
-        order_by: [desc: p.id],
-        where: [category_id: ^String.to_integer(params["category_id"])],
-        where: ilike(p.name, ^"%#{params["q"]}%"),
-        or_where: ilike(p.description, ^"%#{params["q"]}%"),
-        preload: [:skills, :category])
+        category_id = String.to_integer(params["category_id"])
+        dynamic = dynamic([p], p.category_id == ^category_id  )
+        search_query(params, dynamic)
         |> Repo.paginate(params)
 
       true ->
-        from(p in Project,
-        order_by: [desc: p.id],
-        where: ilike(p.name, ^"%#{params["q"]}%"),
-        or_where: ilike(p.description, ^"%#{params["q"]}%"),
-        preload: [:skills, :category])
+        search_query(params, true)
         |> Repo.paginate(params)
     end
+  end
+
+  defp search_query(params, dynamic?) do
+    dynamic = dynamic([p], ilike(p.name, ^"%#{params["q"]}%") and ^dynamic?)
+
+    from(p in Project,
+    order_by: [desc: p.id],
+    where: ^dynamic,
+    or_where: ilike(p.description, ^"%#{params["q"]}%"),
+    preload: [:skills, :category])
   end
 
   def all_paginated(params) do
