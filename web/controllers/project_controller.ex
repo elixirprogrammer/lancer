@@ -54,6 +54,30 @@ defmodule Lancer.ProjectController do
     end
   end
 
+  def edit(conn, %{"id" => id}) do
+    categories = Repo.all(Category)
+    project = Repo.get!(Project, id) |> Repo.preload([:skills, :user])
+    user_owns_project?(conn, project.user)
+    changeset = Project.changeset(project)
+    render conn, :edit, changeset: changeset, categories: categories, project: project
+  end
+
+  def update(conn, %{"id" => id, "project" => project_params}) do
+    categories = Repo.all(Category)
+    project = Repo.get!(Project, id) |> Repo.preload([:skills, :user])
+    user_owns_project?(conn, project.user)
+    changeset = Project.changeset(project, project_params)
+
+    case Repo.update(changeset) do
+      {:ok, project} ->
+        conn
+        |> put_flash(:info, "#{project.name} updated successfully.")
+        |> redirect(to: project_path(conn, :show, project))
+      {:error, changeset} ->
+        render conn, :edit, changeset: changeset, categories: categories, project: project
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     proposal_changeset = Proposal.changeset(%Proposal{})
     changeset = Project.changeset(%Project{})
@@ -82,7 +106,7 @@ defmodule Lancer.ProjectController do
   defp user_owns_project?(conn, project_user) do
     unless project_user == conn.assigns.current_user do
       conn
-      |> put_flash(:error, "You are not the owner of this project.")
+      |> put_flash(:error, "You are not the owner of that project.")
       |> redirect(to: project_path(conn, :index))
     end
   end

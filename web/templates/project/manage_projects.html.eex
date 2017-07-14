@@ -33,7 +33,7 @@
           <td>
             <%= length(project.proposals) %>
           </td>
-          <td><%= link "Edit", to: "/", class: "text-warning" %></td>
+          <td><%= link "Edit", to: project_path(@conn, :edit, project), class: "text-warning" %></td>
           <td><%= link "Delete", to: "/", class: "text-danger" %></td>
         </tr>
       <% end %>
