@@ -36,18 +36,22 @@ defmodule Lancer.Skill do
   def update_skill_list(project, skills_list) do
     skills = skills_list |> String.split(",") |> Enum.uniq()
     old_skills = Project.get_skills(project) |> String.split(",") |> Enum.uniq()
-    # Delete old skill if not found in new list
-    Enum.each(old_skills, fn(old_s) ->
-      unless Enum.find_value(skills, fn(s) -> s == old_s end) do
-        delete_relationship(old_s, project.id)
-      end
-    end)
-    # Insert new skill if not found in the old list
-    Enum.each(skills, fn(s) ->
-      unless Enum.find_value(old_skills, fn(old_s) -> old_s == s end) do
-        build_relationship(s, project.id)
-      end
-    end)
+    # Delete old skill if not found in new list and not empty
+    unless old_skills == [""] do
+      Enum.each(old_skills, fn(old_s) ->
+        unless Enum.find_value(skills, fn(s) -> s == old_s end) do
+          delete_relationship(old_s, project.id)
+        end
+      end)
+    end
+    # Insert new skill if not found in the old list and not empty
+    unless skills == [""] do
+      Enum.each(skills, fn(s) ->
+        unless Enum.find_value(old_skills, fn(old_s) -> old_s == s end) do
+          build_relationship(s, project.id)
+        end
+      end)
+    end
   end
 
   defp build_relationship(s, project_id) do
