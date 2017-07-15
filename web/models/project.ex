@@ -37,7 +37,7 @@ defmodule Lancer.Project do
   def get_skills(project) do
     skills = Repo.all assoc(project, :skills)
     skills = Enum.map(skills, fn(s) -> s.name end)
-    Enum.map_join(skills, ", ", &(&1))
+    Enum.map_join(skills, ",", &(&1))
   end
 
   defp valid_bid_format(changeset, params) do

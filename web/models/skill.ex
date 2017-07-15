@@ -1,9 +1,7 @@
 defmodule Lancer.Skill do
   use Lancer.Web, :model
 
-  alias Lancer.Skill
-  alias Lancer.Ability
-  alias Lancer.Repo
+  alias Lancer.{Skill, Ability, Repo, Project}
 
   schema "skills" do
     field :name, :string
@@ -30,11 +28,37 @@ defmodule Lancer.Skill do
     skills = skills_list |> String.split(",") |> Enum.uniq()
     Enum.each(skills, fn(s) ->
       unless s == "" do
-        skill_changeset = Skill.changeset(%Skill{}, %{name: s})
-        skill = find_or_create(skill_changeset)
-        changeset = Ability.changeset(%Ability{}, %{project_id: project_id, skill_id: skill.id})
-        Repo.insert(changeset)
+        build_relationship(s, project_id)
       end
     end)
+  end
+
+  def update_skill_list(project, skills_list) do
+    skills = skills_list |> String.split(",") |> Enum.uniq()
+    old_skills = Project.get_skills(project) |> String.split(",") |> Enum.uniq()
+    # Delete old skill if not found in new list
+    Enum.each(old_skills, fn(old_s) ->
+      unless Enum.find_value(skills, fn(s) -> s == old_s end) do
+        delete_relationship(old_s, project.id)
+      end
+    end)
+    # Insert new skill if not found in the old list
+    Enum.each(skills, fn(s) ->
+      unless Enum.find_value(old_skills, fn(old_s) -> old_s == s end) do
+        build_relationship(s, project.id)
+      end
+    end)
+  end
+
+  defp build_relationship(s, project_id) do
+    skill_changeset = Skill.changeset(%Skill{}, %{name: s})
+    skill = find_or_create(skill_changeset)
+    Ability.build_relationship(project_id, skill.id)
+  end
+
+  defp delete_relationship(old_s, project_id) do
+    skill_changeset = Skill.changeset(%Skill{}, %{name: old_s})
+    skill = find_or_create(skill_changeset)
+    Ability.delete_old_relationship(project_id, skill.id)
   end
 end

@@ -70,6 +70,8 @@ defmodule Lancer.ProjectController do
 
     case Repo.update(changeset) do
       {:ok, project} ->
+        Skill.update_skill_list(project, project_params["skills_list"])
+
         conn
         |> put_flash(:info, "#{project.name} updated successfully.")
         |> redirect(to: project_path(conn, :show, project))
