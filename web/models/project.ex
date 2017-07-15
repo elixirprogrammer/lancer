@@ -28,6 +28,18 @@ defmodule Lancer.Project do
     |> valid_bid_format(params)
   end
 
+  def skills_changeset(struct, params \\ %{}) do
+    struct
+    |> changeset(params)
+    |> change(%{skills_list: get_skills(struct)})
+  end
+
+  def get_skills(project) do
+    skills = Repo.all assoc(project, :skills)
+    skills = Enum.map(skills, fn(s) -> s.name end)
+    Enum.map_join(skills, ", ", &(&1))
+  end
+
   defp valid_bid_format(changeset, params) do
     message = "Use only numbers please"
     if Map.has_key?(params, "budget") do

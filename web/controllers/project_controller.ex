@@ -58,7 +58,7 @@ defmodule Lancer.ProjectController do
     categories = Repo.all(Category)
     project = Repo.get!(Project, id) |> Repo.preload([:skills, :user])
     user_owns_project?(conn, project)
-    changeset = Project.changeset(project)
+    changeset = Project.skills_changeset(project)
     render conn, :edit, changeset: changeset, categories: categories, project: project
   end
 
